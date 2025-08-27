@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+    <!-- Background Music -->
+<audio id="bg-music" loop>
+    <source src="audio/Verse 1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    const bgMusic = document.getElementById("bg-music");
+    let isPlaying = false;
+
+    document.body.addEventListener("click", () => {
+        if (!isPlaying) {
+            bgMusic.play();
+            isPlaying = true;
+        }
+    });
+</script>
+
+
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terokai Bakun Dam, Sarawak</title>
+    <!-- Tailwind CSS CDN untuk penggayaan yang pantas dan responsif -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fdee;
+            color: #262626;
+        }
+        /* Imej latar untuk hero section */
+        .hero-bg {
+            background-image: url('images/download (9).png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        /* Animasi butang untuk interaksi */
+        .btn-cta {
+            transition: all 0.3s ease;
+        }
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+        /* Efek hover pada kad untuk kesan interaktif */
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        /* Gaya untuk tab */
+        .tab-btn {
+            padding: 1rem 2rem;
+            font-weight: 600;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .tab-btn.active {
+            background-color: #166534;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        /* Gaya untuk kandungan tab */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        /* Gaya untuk modal galeri */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content-img {
+            display: block;
+            max-width: 90%;
+            max-height: 80vh;
+            margin: auto;
+            border-radius: 12px;
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .close-btn:hover,
+        .close-btn:focus {
+            color: #d1d5db;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative hero-bg bg-cover bg-center h-[70vh] md:h-screen flex items-center justify-center text-center text-white p-4">
+        <div class="absolute inset-0 bg-black opacity-60"></div>
+        <div class="relative z-10 max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 animate-fade-in-up drop-shadow-xl">
+                Terokai Keindahan Bakun Dam
+            </h1>
+            <p class="text-xl md:text-2xl font-medium mb-8 animate-fade-in-up delay-200 drop-shadow-md">
+                Permata Tersembunyi di Hutan Sarawak!
+            </p>
+            <div class="space-y-4 md:space-x-6 md:space-y-0 flex flex-col md:flex-row justify-center items-center">
+                <button data-tab-name="packages" class="btn-cta bg-green-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-green-700 transition-transform duration-300">
+                    Tempah Sekarang
+                </button>
+                <button data-tab-name="activities" class="btn-cta bg-amber-400 text-green-900 font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-amber-500 transition-transform duration-300">
+                    Lihat Aktiviti
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tab Navigation -->
+    <section class="py-12 bg-gray-100 sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-4 md:px-8 max-w-6xl">
+            <div class="flex flex-wrap justify-center gap-4">
+                <button class="tab-btn active bg-green-700 text-white" data-tab-target="introduction-tab">Pengenalan</button>
+                <button class="tab-btn bg-white text-green-900 border border-green-300 hover:bg-green-200" data-tab-target="activities-tab">Tarikan & Aktiviti</button>
+                <button class="tab-btn bg-white text-green-900 border border-green-300 hover:bg-green-200" data-tab-target="packages-tab">Pakej</button>
+                <button class="tab-btn bg-white text-green-900 border border-green-300 hover:bg-green-200" data-tab-target="gallery-tab">Galeri</button>
+                <button class="tab-btn bg-white text-green-900 border border-green-300 hover:bg-green-200" data-tab-target="contact-tab">Hubungi Kami</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tab Content Container -->
+    <div class="py-16 md:py-24">
+        <div class="container mx-auto px-4 md:px-8 max-w-6xl">
+
+            <!-- Tab 1: Pengenalan Bakun Dam -->
+            <div id="introduction-tab" class="tab-content active">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-green-800">
+                    Mengenali Bakun Dam
+                </h2>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <img src="images/download (3).png" alt="Keindahan semula jadi di Bakun Dam" class="w-full h-auto rounded-3xl shadow-xl transition-transform duration-300 hover:scale-[1.02]">
+                    </div>
+                    <div class="text-lg leading-relaxed space-y-4">
+                        <p>Bakun Dam, struktur buatan manusia yang mengagumkan di tengah-tengah hutan tebal Sarawak, merupakan tasik buatan terbesar di Asia Tenggara. Siap dibina pada tahun 2011, empangan ini bukan sahaja memainkan peranan penting dalam penjanaan tenaga hidroelektrik untuk Malaysia, malah telah mengubah landskap sekitarnya menjadi destinasi pelancongan alam semula jadi yang menakjubkan.</p>
+                        <p>Tasiknya yang luas menenggelamkan kawasan seluas lebih 695 km persegi, mewujudkan ribuan pulau kecil dan formasi unik yang menanti untuk diterokai. Keindahan yang tersembunyi ini menawarkan pengalaman luar biasa bagi pengembara yang mencari ketenangan dan keunikan di tengah alam semula jadi yang terpelihara.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Tarikan Utama & Aktiviti -->
+            <div id="activities-tab" class="tab-content">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-green-800">
+                    Tarikan & Aktiviti Yang Menarik
+                </h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-3xl shadow-lg border border-green-200 card-hover">
+                        <img src="images/Tasik Bakun.webp" alt="Aktiviti di Tasik Bakun" class="w-full h-auto rounded-2xl mb-4">
+                        <h3 class="text-2xl font-bold mb-2 text-green-900">Tasik Bakun</h3>
+                        <p class="text-gray-600 mb-4">Tasik buatan ini adalah syurga bagi pencinta air. Nikmati aktiviti seperti:</p>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700">
+                            <li>Memancing spesies air tawar</li>
+                            <li>Berenang di air yang jernih</li>
+                            <li>Berkayak dan bersampan</li>
+                            <li>Bersantai di atas houseboat</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-lg border border-green-200 card-hover">
+                        <img src="images/Orang asli.webp" alt="Budaya dan kehidupan kaum Penan" class="w-full h-auto rounded-2xl mb-4">
+                        <h3 class="text-2xl font-bold mb-2 text-green-900">Perkampungan Orang Asli</h3>
+                        <p class="text-gray-600 mb-4">Kenali kehidupan dan budaya unik kaum Penan dan Kenyah. Alami:</p>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700">
+                            <li>Lawatan kebudayaan dan tradisi</li>
+                            <li>Pengalaman homestay bersama komuniti</li>
+                            <li>Mempelajari kemahiran kraf tangan</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-lg border border-green-200 card-hover">
+                        <img src="images/Pengembaraan Hutan.webp" alt="Hutan hujan di Bakun" class="w-full h-auto rounded-2xl mb-4">
+                        <h3 class="text-2xl font-bold mb-2 text-green-900">Pengembaraan Hutan</h3>
+                        <p class="text-gray-600 mb-4">Bagi jiwa pengembara, hutan Bakun menawarkan cabaran:</p>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700">
+                            <li>Jungle trekking ke air terjun tersembunyi</li>
+                            <li>Camping di tepi tasik</li>
+                            <li>Menyusuri sungai dengan bot</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Pakej Pelancongan -->
+            <div id="packages-tab" class="tab-content">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-green-800">
+                    Pakej Pelancongan Pilihan
+                </h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-green-100 p-8 rounded-3xl shadow-lg border-2 border-green-400 card-hover">
+                        <!-- Imej baharu untuk Pakej 1 HARI -->
+                        <img src="images/1 hari.jpg" class="w-full h-auto rounded-2xl mb-4 shadow-md">
+                        <h3 class="text-2xl font-bold text-center text-green-900 mb-2">Pakej 1 Hari</h3>
+                        <p class="text-center text-gray-600 mb-6">Nikmati keindahan Bakun dalam satu hari yang padat.</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+                        <h3 class="text-2xl font-bold text-center text-green-900 mb-2">RM300.00</h3>    
+                        </ul>
+                    </div>
+                    <div class="bg-green-100 p-8 rounded-3xl shadow-lg border-2 border-green-400 card-hover">
+                        <!-- Imej baharu untuk Pakej 3H2M -->
+                        <img src="images/photo_6156605112672438245_x.jpg" class="w-full h-auto rounded-2xl mb-4 shadow-md">
+                        <h3 class="text-2xl font-bold text-center text-green-900 mb-2">Pakej 3H2M</h3>
+                        <p class="text-center text-gray-600 mb-6">Pengalaman lebih mendalam dan santai.</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+                        <h3 class="text-2xl font-bold text-center text-green-900 mb-2">RM900.00</h3>
+                        </ul>
+                    </div>
+                    <div class="bg-green-100 p-8 rounded-3xl shadow-lg border-2 border-green-400 card-hover">
+                        <!-- Imej baharu untuk Pakej 4H3M -->
+                        <img src="images/4h3m.jpg" class="w-full h-auto rounded-2xl mb-4 shadow-md">
+                        <h3 class="text-2xl font-bold text-center text-green-900 mb-2">Pakej 4H3M</h3>
+                        <p class="text-center text-gray-600 mb-6">Alami Bakun sepenuhnya dengan pakej premium.</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+                        <h3 class="text-2xl font-bold text-center text-green-900 mb-2">RM1,200.00</h3>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: Galeri Gambar -->
+            <div id="gallery-tab" class="tab-content">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-green-800">
+                    Galeri Keindahan Bakun
+                </h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <figure class="w-full">
+  <img src="images/Pemandangan indah.jpg" 
+       class="gallery-img w-full h-auto rounded-2xl shadow-md cursor-pointer transition-transform duration-300 hover:scale-105" 
+       alt="Pemandangan indah Tasik Bakun">
+  <figcaption class="text-center mt-2 text-sm text-gray-700">
+    Pemandangan indah Tasik Bakun
+  </figcaption>
+</figure>
+
+<figure class="w-full">
+  <img src="images/Aktiviti berkayak.jpg" 
+       class="gallery-img w-full h-auto rounded-2xl shadow-md cursor-pointer transition-transform duration-300 hover:scale-105" 
+       alt="Aktiviti berkayak di Bakun">
+  <figcaption class="text-center mt-2 text-sm text-gray-700">
+    Aktiviti berkayak di Bakun
+  </figcaption>
+</figure>
+
+ <figure class="w-full">
+  <img src="images/Bermasyarakat.jpg" 
+       class="gallery-img w-full h-auto rounded-2xl shadow-md cursor-pointer transition-transform duration-300 hover:scale-105" 
+       alt="Kehidupan masyarakat tempatan">
+  <figcaption class="text-center mt-2 text-sm text-gray-700">
+    Kehidupan masyarakat tempatan
+  </figcaption>
+</figure>
+
+<figure class="w-full">
+  <img src="images/Air terjun.jpg" 
+       class="gallery-img w-full h-auto rounded-2xl shadow-md cursor-pointer transition-transform duration-300 hover:scale-105" 
+       alt="Air terjun tersembunyi di Bakun">
+  <figcaption class="text-center mt-2 text-sm text-gray-700">
+    Air terjun tersembunyi di Bakun
+  </figcaption>
+</figure>
+
+ <figure class="w-full">
+  <img src="images/Aktiviti memancing.jpg" 
+       class="gallery-img w-full h-auto rounded-2xl shadow-md cursor-pointer transition-transform duration-300 hover:scale-105" 
+       alt="Aktiviti memancing di Bakun">
+  <figcaption class="text-center mt-2 text-sm text-gray-700">
+    Aktiviti memancing di Bakun
+  </figcaption>
+</figure>
+
+<figure class="w-full">
+  <img src="images/Matahari terbit.jpg" 
+       class="gallery-img w-full h-auto rounded-2xl shadow-md cursor-pointer transition-transform duration-300 hover:scale-105" 
+       alt="Matahari terbit di Bakun Dam">
+  <figcaption class="text-center mt-2 text-sm text-gray-700">
+    Matahari terbit di Bakun Dam
+  </figcaption>
+</figure>
+
+ <figure class="w-full">
+  <img src="images/Matahari terbenam.jpg" 
+       class="gallery-img w-full h-auto rounded-2xl shadow-md cursor-pointer transition-transform duration-300 hover:scale-105" 
+       alt="Pemandangan matahari terbenam">
+  <figcaption class="text-center mt-2 text-sm text-gray-700">
+    Pemandangan matahari terbenam
+  </figcaption>
+</figure>
+
+<figure class="w-full">
+  <img src="images/Tapak perkhemahan.jpg" 
+       class="gallery-img w-full h-auto rounded-2xl shadow-md cursor-pointer transition-transform duration-300 hover:scale-105" 
+       alt="Tapak perkhemahan yang selesa">
+  <figcaption class="text-center mt-2 text-sm text-gray-700">
+    Tapak perkhemahan yang selesa
+  </figcaption>
+</figure>
+
+                    
+                </div>
+            </div>
+
+            <!-- Tab 5: Hubungi Kami & Tempahan -->
+            <div id="contact-tab" class="tab-content">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-green-800">
+                    Hubungi Kami & Tempah Sekarang
+                </h2>
+                <form class="bg-white p-8 rounded-3xl shadow-xl border border-green-200">
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label for="name" class="block text-gray-700 font-medium mb-2">Nama Penuh</label>
+                            <input type="text" id="name" name="name" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600" placeholder="Masukkan nama anda">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-700 font-medium mb-2">Alamat E-mel</label>
+                            <input type="email" id="email" name="email" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600" placeholder="Masukkan e-mel anda">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label for="package" class="block text-gray-700 font-medium mb-2">Pakej Pilihan</label>
+                        <select id="package" name="package" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600">
+                            <option value="">-- Pilih Pakej --</option>
+                            <option value="day-trip">Pakej 1 Hari</option>
+                            <option value="3d2n">Pakej 3 Hari 2 Malam</option>
+                            <option value="4d3n">Pakej 4 Hari 3 Malam</option>
+                            <option value="custom">Pakej Tersuai</option>
+                        </select>
+                    </div>
+                    <div class="mb-6">
+                        <label for="message" class="block text-gray-700 font-medium mb-2">Mesej Tambahan</label>
+                        <textarea id="message" name="message" rows="4" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600" placeholder="Sertakan sebarang soalan atau permintaan khas"></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn-cta bg-green-600 text-white font-semibold py-3 px-12 rounded-full shadow-lg hover:bg-green-700">Hantar Tempahan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk Galeri -->
+    <div id="myModal" class="modal">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <img class="modal-content-img" id="modalImage" alt="Imej yang diperbesarkan">
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-10">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 Bakun Dam Travel. Hak Cipta Terpelihara.</p>
+            <p class="mt-2 text-sm">Dibangunkan oleh MarHaiN dengan ❤️ di Sarawak.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Logik untuk tab
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.dataset.tabTarget;
+                
+                // Nyahaktifkan semua tab dan kandungan
+                tabButtons.forEach(btn => btn.classList.remove('active', 'bg-green-700', 'text-white'));
+                tabButtons.forEach(btn => btn.classList.add('bg-white', 'text-green-900', 'border', 'border-green-300', 'hover:bg-green-200'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                // Aktifkan tab dan kandungan yang diklik
+                button.classList.add('active', 'bg-green-700', 'text-white');
+                button.classList.remove('bg-white', 'text-green-900', 'border', 'border-green-300', 'hover:bg-green-200');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+
+        // Logik untuk butang CTA di Hero Section
+        document.querySelectorAll('.btn-cta').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const targetTab = e.target.dataset.tabName;
+                document.querySelector(`.tab-btn[data-tab-target="${targetTab}-tab"]`).click();
+            });
+        });
+
+        // Logik untuk galeri imej modal
+        const modal = document.getElementById("myModal");
+        const modalImg = document.getElementById("modalImage");
+        const galleryImages = document.querySelectorAll(".gallery-img");
+
+        galleryImages.forEach(img => {
+            img.addEventListener("click", function() {
+                modal.style.display = "flex";
+                modalImg.src = this.src;
+                modalImg.alt = this.alt;
+            });
+        });
+
+        // Fungsi untuk menutup modal apabila butang 'x' atau latar belakang diklik
+        function closeModal() {
+            modal.style.display = "none";
+        }
+        
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+</html>
